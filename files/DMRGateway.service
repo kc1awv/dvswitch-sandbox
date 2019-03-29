@@ -1,0 +1,24 @@
+[Unit] 
+Description=DMRGateway Service 
+# Description=Place this file in /lib/systemd/system 
+# Description=KC1AWV 30 NOV 2018
+
+# To make the network-online.target available 
+# systemctl enable systemd-networkd-wait-online.service 
+
+After=network-online.target syslog.target netcheck.service 
+Wants=network-online.target 
+
+[Service] 
+Type=simple 
+StandardOutput=null 
+WorkingDirectory=/opt/DMRGateway 
+Restart=always 
+RestartSec=3 
+ExecStart=/opt/DMRGateway/DMRGateway /opt/DMRGateway/DMRGateway.ini 
+ExecReload=/bin/kill -2 $MAINPID 
+KillMode=process 
+
+[Install] 
+WantedBy=multi-user.target
+
